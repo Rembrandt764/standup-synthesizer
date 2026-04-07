@@ -3,7 +3,7 @@ import time
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="Zoom AI: Standup Synthesizer",
+    page_title="Tanish's Standup Synthesizer",
     page_icon="✨",
     layout="wide",
     initial_sidebar_state="collapsed"
