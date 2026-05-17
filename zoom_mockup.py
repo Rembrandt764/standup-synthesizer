@@ -26,52 +26,7 @@ st.markdown("""
             font-family: 'Lato', sans-serif !important;
             font-weight: 700 !important;
         }
-
-        /* Force the markdown text and the button container to sit inline as a single sentence */
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] {
-            display: inline !important;
-        }
         
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] div[data-testid="stMarkdownContainer"],
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] p {
-            display: inline !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        
-        /* Make the button container behave like an inline text element right after the period */
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] + div[data-testid="stElementContainer"] {
-            display: inline !important;
-            margin-left: 6px !important; /* Space between the text period and VIEW PRD */
-        }
-        
-        /* Turn the button into raw text link style matching your font rules */
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] + div[data-testid="stElementContainer"] button {
-            display: inline !important;
-            background: none !important;
-            border: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            color: #0B5CFF !important;
-            text-decoration: underline !important;
-            font-size: 1rem !important;
-            font-weight: 700 !important;
-            font-family: 'Lato', sans-serif !important;
-            min-height: auto !important;
-            height: auto !important;
-            vertical-align: baseline !important;
-            box-shadow: none !important;
-        }
-        
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] + div[data-testid="stElementContainer"] button * {
-            color: #0B5CFF !important;
-            display: inline !important;
-        }
-        
-        div[data-testid="stElementContainer"]:has(.inline-line-trigger) + div[data-testid="stElementContainer"] + div[data-testid="stElementContainer"] button:hover * {
-            color: #094bce !important;
-        }
-
         /* Unified Button Heights and Alignment */
         .stButton>button {
             min-height: 54px !important;
@@ -263,13 +218,7 @@ def send_mail_modal():
 
 # --- Main App Layout ---
 st.title("✨ Standup Synthesizer")
-
-# Custom anchor to latch the CSS rules onto the following text and button blocks
-st.markdown('<div class="inline-line-trigger" style="display:none;"></div>', unsafe_allow_html=True)
 st.markdown("Product standup in 15m. Choose which updates you'd like to share, and I'll generate a live script for you.")
-if st.button("VIEW PRD", key="view_prd_inline_final"):
-    prd_modal()
-
 st.divider()
 
 # Inject the wrapper class BEFORE the columns so we can natively add the vertical border to the first column
