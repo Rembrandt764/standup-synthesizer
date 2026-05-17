@@ -61,52 +61,6 @@ st.markdown("""
             font-size: 1.2rem; min-height: auto !important; 
         }
         .stButton>button[kind="tertiary"]:hover { color: #0B5CFF !important; background-color: transparent !important; }
-
-       /* Collapse the header row container so elements sit tightly side-by-side */
-        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] {
-            justify-content: flex-start !important;
-            gap: 16px !important; /* Space between the text and the pill button */
-        }
-        
-        /* Force both columns to wrap closely around their content */
-        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
-            width: auto !important;
-            flex: 0 1 auto !important;
-        }
-        
-        /* Custom Header PRD Pill Button Alignment */
-        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button {
-            min-height: 32px !important;
-            height: 32px !important;
-            border-radius: 20px !important;
-            background-color: #F0F4FF !important;
-            color: #0B5CFF !important;
-            border: 1px solid #0B5CFF !important;
-            font-size: 0.85rem !important;
-            font-weight: 700 !important;
-            padding: 0px 16px !important;
-            width: auto !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin-top: 10px; /* Aligns the pill baseline cleanly with the title text */
-        }
-        
-        /* Force inner text color alignment */
-        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button * {
-            color: #0B5CFF !important;
-        }
-        
-        /* Hover States */
-        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button:hover {
-            background-color: #0B5CFF !important;
-            color: white !important;
-            border-color: #0B5CFF !important;
-        }
-        
-        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button:hover * {
-            color: white !important;
-        }
         
         /* Vertical Divider for Main Columns */
         div[data-testid="stElementContainer"]:has(.main-columns-wrapper) + div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
@@ -206,25 +160,6 @@ if 'current_script' not in st.session_state:
     st.session_state.current_script = ""
 
 # --- Modal Dialogs ---
-@st.dialog("Product Requirements Document (PRD)", width="large")
-def prd_modal():
-    st.markdown("""
-    ### Problem Statement
-    Most product managers start their morning the same way: checking Team Chat for blockers, scrolling through Docs for spec updates, and scanning Whiteboards for design changes. By the time the standup starts, fifteen minutes are gone and you're still just trying to remember where you left off. This also affects the productivity of the standup itself, with PMs often not being fully present during teammates' updates.
-                
-    Current AI tools are great at summarizing what happened in the past, but they often fail to help us prepare for the next immediate interaction. That gap between having workspace data and actually being meeting-ready is the core problem solved here.
-    
-    ### The Solution: AI Standup Synthesizer
-    This prototype is built around one idea: **Zoom AI Companion should be a proactive agent, not a passive observer**. It auto-synthesizes relevant but scattered workspace data into conversational, standup-ready debriefs.
-    
-    ### Salient Features
-    * **Unified Workspace Context:** Pulls real-time updates from across the workspace (Docs, Chat, Mail, and Whiteboard) into a single "Source selection" interface.
-    * **Dynamic Verbosity Control:** Toggle between a "Brief" update for quick syncs and a "Detailed" script for deeper technical discussions, with the AI adjusting tone and depth instantly.
-    * **Agentic Proactivity:** The AI recognizes teammates mentioned in your docs or chats and automatically drafts targeted questions for them (e.g., *"@Alice, do we have the green light on the PRD?"*), turning a status update into a workflow trigger. This is done intelligently only for the teammates present in the upcoming standup. You can also view the teammates by hovering over the 'people' icon in the list of sources.
-    * **In-Call Teleprompter:** A video integration that provides a scrolling overlay, ensuring the user stays on track and conversational without ever leaving the call, significantly reducing cognitive load.
-    * **Asynchronous Fallback:** If you can't make the call, one click transforms your script into a human-toned email update sent directly to the relevant teammates.
-    """)
-    
 @st.dialog("Add Workspace Sources")
 def add_sources_modal():
     workspace = st.selectbox("Select Workspace", ["Zoom Team Chat", "Zoom Docs", "Zoom Mail", "Zoom Calendar", "Zoom Whiteboard"])
@@ -282,17 +217,7 @@ def send_mail_modal():
             st.rerun()
 
 # --- Main App Layout ---
-# Structural anchor to target the header row layout elements cleanly
-st.markdown('<div class="header-columns-trigger" style="display:none;"></div>', unsafe_allow_html=True)
-header_left, header_right = st.columns([1, 1], vertical_alignment="center")
-
-with header_left:
-    st.title("✨ Standup Synthesizer")
-
-with header_right:
-    if st.button("📄 PRD", key="header_prd_btn"):
-        prd_modal()
-
+st.title("✨ Standup Synthesizer")
 st.markdown("Product standup in 15m. Choose which updates you'd like to share, and I'll generate a live script for you.")
 st.divider()
 
