@@ -62,10 +62,34 @@ st.markdown("""
         }
         .stButton>button[kind="tertiary"]:hover { color: #0B5CFF !important; background-color: transparent !important; }
 
-        /* Ensure the header PRD button stays compact and elegant */
-        div[data-testid="stElementContainer"]:has(.prd-btn-target) + div[data-testid="stElementContainer"] button {
-        min-height: 38px !important;
-        margin-top: 15px;
+        /* Custom Header PRD Pill Button */
+        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button {
+            min-height: 32px !important;
+            height: 32px !important;
+            border-radius: 20px !important;
+            background-color: #F0F4FF !important;
+            color: #0B5CFF !important;
+            border: 1px solid #0B5CFF !important;
+            font-size: 0.85rem !important;
+            font-weight: 700 !important;
+            padding: 0px 16px !important;
+            box-shadow: none !important;
+            width: auto !important;
+            float: right;
+        }
+        
+        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button * {
+            color: #0B5CFF !important;
+        }
+        
+        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button:hover {
+            background-color: #0B5CFF !important;
+            color: white !important;
+            border-color: #0B5CFF !important;
+        }
+        
+        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button:hover * {
+            color: white !important;
         }
         
         /* Vertical Divider for Main Columns */
@@ -169,20 +193,20 @@ if 'current_script' not in st.session_state:
 @st.dialog("Product Requirements Document (PRD)", width="large")
 def prd_modal():
     st.markdown("""
-    ### Problem Statement [cite: 1]
-    Most product managers start their morning the same way: checking Team Chat for blockers, scrolling through Docs for spec updates, and scanning Whiteboards for design changes[cite: 2]. By the time the standup starts, fifteen minutes are gone and you're still just trying to remember where you left off[cite: 3]. This also affects the productivity of the standup itself, with PMs often not being fully present during teammates' updates[cite: 4].
+    ### Problem Statement
+    Most product managers start their morning the same way: checking Team Chat for blockers, scrolling through Docs for spec updates, and scanning Whiteboards for design changes. By the time the standup starts, fifteen minutes are gone and you're still just trying to remember where you left off. This also affects the productivity of the standup itself, with PMs often not being fully present during teammates' updates.
                 
-    Current AI tools are great at summarizing what happened in the past, but they often fail to help us prepare for the next immediate interaction[cite: 5]. That gap between having workspace data and actually being meeting-ready is the core problem solved here[cite: 6].
+    Current AI tools are great at summarizing what happened in the past, but they often fail to help us prepare for the next immediate interaction. That gap between having workspace data and actually being meeting-ready is the core problem solved here.
     
-    ### The Solution: AI Standup Synthesizer [cite: 7]
-    This prototype is built around one idea: **Zoom AI Companion should be a proactive agent, not a passive observer**[cite: 8]. It auto-synthesizes relevant but scattered workspace data into conversational, standup-ready debriefs[cite: 9].
+    ### The Solution: AI Standup Synthesizer
+    This prototype is built around one idea: **Zoom AI Companion should be a proactive agent, not a passive observer**. It auto-synthesizes relevant but scattered workspace data into conversational, standup-ready debriefs.
     
     ### Salient Features
-    * **Unified Workspace Context:** Pulls real-time updates from across the workspace (Docs, Chat, Mail, and Whiteboard) into a single "Source selection" interface[cite: 10].
-    * **Dynamic Verbosity Control:** Toggle between a "Brief" update for quick syncs and a "Detailed" script for deeper technical discussions, with the AI adjusting tone and depth instantly[cite: 15].
-    * **Agentic Proactivity:** The AI recognizes teammates mentioned in your docs or chats and automatically drafts targeted questions for them (e.g., *"@Alice, do we have the green light on the PRD?"*), turning a status update into a workflow trigger[cite: 16]. This is done intelligently only for the teammates present in the upcoming standup[cite: 17]. You can also view the teammates by hovering over the 'people' icon in the list of sources[cite: 18].
-    * **In-Call Teleprompter:** A video integration that provides a scrolling overlay, ensuring the user stays on track and conversational without ever leaving the call [cite: 19], significantly reducing cognitive load[cite: 20, 21].
-    * **Asynchronous Fallback:** If you can't make the call, one click transforms your script into a human-toned email update sent directly to the relevant teammates[cite: 22].
+    * **Unified Workspace Context:** Pulls real-time updates from across the workspace (Docs, Chat, Mail, and Whiteboard) into a single "Source selection" interface.
+    * **Dynamic Verbosity Control:** Toggle between a "Brief" update for quick syncs and a "Detailed" script for deeper technical discussions, with the AI adjusting tone and depth instantly.
+    * **Agentic Proactivity:** The AI recognizes teammates mentioned in your docs or chats and automatically drafts targeted questions for them (e.g., *"@Alice, do we have the green light on the PRD?"*), turning a status update into a workflow trigger. This is done intelligently only for the teammates present in the upcoming standup. You can also view the teammates by hovering over the 'people' icon in the list of sources.
+    * **In-Call Teleprompter:** A video integration that provides a scrolling overlay, ensuring the user stays on track and conversational without ever leaving the call, significantly reducing cognitive load.
+    * **Asynchronous Fallback:** If you can't make the call, one click transforms your script into a human-toned email update sent directly to the relevant teammates.
     """)
     
 @st.dialog("Add Workspace Sources")
