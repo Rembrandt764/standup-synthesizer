@@ -26,7 +26,54 @@ st.markdown("""
             font-family: 'Lato', sans-serif !important;
             font-weight: 700 !important;
         }
+
+        /* 1. Force the subheader row to be a single continuous line */
+        div[data-testid="stElementContainer"]:has(.inline-prd-trigger) + div[data-testid="stHorizontalBlock"] {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: flex-start !important;
+            align-items: baseline !important; /* Perfect vertical baseline snap */
+            gap: 6px !important; /* Spacing between the sentence period and the link */
+            margin-bottom: 1rem !important;
+        }
         
+        /* 2. Force both the text column and link column to tightly wrap their contents */
+        div[data-testid="stElementContainer"]:has(.inline-prd-trigger) + div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            width: auto !important;
+            flex: 0 1 auto !important;
+        }
+        
+        /* 3. Strip all button footprints to create a pixel-perfect text hyperlink */
+        div[data-testid="stElementContainer"]:has(.inline-prd-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button {
+            background: none !important;
+            border: none !important;
+            padding: 0 !important;
+            color: #0B5CFF !important;
+            text-decoration: underline !important;
+            min-height: auto !important;
+            height: auto !important;
+            font-size: 1rem !important; /* Seamlessly matches your main body text size */
+            font-weight: 700 !important;
+            display: inline-block !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            cursor: pointer;
+        }
+        
+        /* Color state syncs */
+        div[data-testid="stElementContainer"]:has(.inline-prd-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button * {
+            color: #0B5CFF !important;
+        }
+        
+        div[data-testid="stElementContainer"]:has(.inline-prd-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button:hover * {
+            color: #094bce !important;
+        }
+        
+        /* Eliminate Streamlit's default markdown paragraph trailing gap inside the row */
+        div[data-testid="stElementContainer"]:has(.inline-prd-trigger) + div[data-testid="stHorizontalBlock"] p {
+            margin-bottom: 0 !important;
+        }
+
         /* Unified Button Heights and Alignment */
         .stButton>button {
             min-height: 54px !important;
@@ -218,7 +265,18 @@ def send_mail_modal():
 
 # --- Main App Layout ---
 st.title("✨ Standup Synthesizer")
-st.markdown("Product standup in 15m. Choose which updates you'd like to share, and I'll generate a live script for you.")
+
+# Inline structure anchor mapping
+st.markdown('<div class="inline-prd-trigger" style="display:none;"></div>', unsafe_allow_html=True)
+sub_col1, sub_col2 = st.columns([1, 1])
+
+with sub_col1:
+    st.markdown("Product standup in 15m. Choose which updates you'd like to share, and I'll generate a live script for you.")
+
+with sub_col2:
+    if st.button("View PRD", key="inline_prd_link"):
+        prd_modal()
+
 st.divider()
 
 # Inject the wrapper class BEFORE the columns so we can natively add the vertical border to the first column
