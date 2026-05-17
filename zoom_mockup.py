@@ -61,6 +61,12 @@ st.markdown("""
             font-size: 1.2rem; min-height: auto !important; 
         }
         .stButton>button[kind="tertiary"]:hover { color: #0B5CFF !important; background-color: transparent !important; }
+
+        /* Ensure the header PRD button stays compact and elegant */
+        div[data-testid="stElementContainer"]:has(.prd-btn-target) + div[data-testid="stElementContainer"] button {
+        min-height: 38px !important;
+        margin-top: 15px;
+        }
         
         /* Vertical Divider for Main Columns */
         div[data-testid="stElementContainer"]:has(.main-columns-wrapper) + div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(1) {
@@ -160,6 +166,25 @@ if 'current_script' not in st.session_state:
     st.session_state.current_script = ""
 
 # --- Modal Dialogs ---
+@st.dialog("Product Requirements Document (PRD)", width="large")
+def prd_modal():
+    st.markdown("""
+    ### Problem Statement [cite: 1]
+    Most product managers start their morning the same way: checking Team Chat for blockers, scrolling through Docs for spec updates, and scanning Whiteboards for design changes[cite: 2]. By the time the standup starts, fifteen minutes are gone and you're still just trying to remember where you left off[cite: 3]. This also affects the productivity of the standup itself, with PMs often not being fully present during teammates' updates[cite: 4].
+                
+    Current AI tools are great at summarizing what happened in the past, but they often fail to help us prepare for the next immediate interaction[cite: 5]. That gap between having workspace data and actually being meeting-ready is the core problem solved here[cite: 6].
+    
+    ### The Solution: AI Standup Synthesizer [cite: 7]
+    This prototype is built around one idea: **Zoom AI Companion should be a proactive agent, not a passive observer**[cite: 8]. It auto-synthesizes relevant but scattered workspace data into conversational, standup-ready debriefs[cite: 9].
+    
+    ### Salient Features
+    * **Unified Workspace Context:** Pulls real-time updates from across the workspace (Docs, Chat, Mail, and Whiteboard) into a single "Source selection" interface[cite: 10].
+    * **Dynamic Verbosity Control:** Toggle between a "Brief" update for quick syncs and a "Detailed" script for deeper technical discussions, with the AI adjusting tone and depth instantly[cite: 15].
+    * **Agentic Proactivity:** The AI recognizes teammates mentioned in your docs or chats and automatically drafts targeted questions for them (e.g., *"@Alice, do we have the green light on the PRD?"*), turning a status update into a workflow trigger[cite: 16]. This is done intelligently only for the teammates present in the upcoming standup[cite: 17]. You can also view the teammates by hovering over the 'people' icon in the list of sources[cite: 18].
+    * **In-Call Teleprompter:** A video integration that provides a scrolling overlay, ensuring the user stays on track and conversational without ever leaving the call [cite: 19], significantly reducing cognitive load[cite: 20, 21].
+    * **Asynchronous Fallback:** If you can't make the call, one click transforms your script into a human-toned email update sent directly to the relevant teammates[cite: 22].
+    """)
+    
 @st.dialog("Add Workspace Sources")
 def add_sources_modal():
     workspace = st.selectbox("Select Workspace", ["Zoom Team Chat", "Zoom Docs", "Zoom Mail", "Zoom Calendar", "Zoom Whiteboard"])
@@ -217,7 +242,18 @@ def send_mail_modal():
             st.rerun()
 
 # --- Main App Layout ---
-st.title("✨ Standup Synthesizer")
+st.markdown('<div class="header-wrapper" style="display:none;"></div>', unsafe_allow_html=True)
+header_left, header_right = st.columns([0.75, 0.25], vertical_alignment="center")
+
+with header_left:
+    st.title("✨ Standup Synthesizer")
+
+with header_right:
+    # A dedicated target class prevents this button from blowing up to 54px tall
+    st.markdown('<div class="prd-btn-target"></div>', unsafe_allow_html=True)
+    if st.button("📋 View PRD", type="secondary", use_container_width=True):
+        prd_modal()
+
 st.markdown("Product standup in 15m. Choose which updates you'd like to share, and I'll generate a live script for you.")
 st.divider()
 
