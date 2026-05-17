@@ -62,7 +62,19 @@ st.markdown("""
         }
         .stButton>button[kind="tertiary"]:hover { color: #0B5CFF !important; background-color: transparent !important; }
 
-        /* Custom Header PRD Pill Button (Reinforced) */
+       /* Collapse the header row container so elements sit tightly side-by-side */
+        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] {
+            justify-content: flex-start !important;
+            gap: 16px !important; /* Space between the text and the pill button */
+        }
+        
+        /* Force both columns to wrap closely around their content */
+        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            width: auto !important;
+            flex: 0 1 auto !important;
+        }
+        
+        /* Custom Header PRD Pill Button Alignment */
         div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button {
             min-height: 32px !important;
             height: 32px !important;
@@ -77,8 +89,7 @@ st.markdown("""
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            float: right;
-            margin-top: 4px;
+            margin-top: 10px; /* Aligns the pill baseline cleanly with the title text */
         }
         
         /* Force inner text color alignment */
@@ -273,7 +284,7 @@ def send_mail_modal():
 # --- Main App Layout ---
 # Structural anchor to target the header row layout elements cleanly
 st.markdown('<div class="header-columns-trigger" style="display:none;"></div>', unsafe_allow_html=True)
-header_left, header_right = st.columns([0.82, 0.18], vertical_alignment="center")
+header_left, header_right = st.columns([1, 1], vertical_alignment="center")
 
 with header_left:
     st.title("✨ Standup Synthesizer")
