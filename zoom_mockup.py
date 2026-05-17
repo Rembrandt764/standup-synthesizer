@@ -62,8 +62,8 @@ st.markdown("""
         }
         .stButton>button[kind="tertiary"]:hover { color: #0B5CFF !important; background-color: transparent !important; }
 
-        /* Custom Header PRD Pill Button */
-        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button {
+        /* Custom Header PRD Pill Button (Reinforced) */
+        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button {
             min-height: 32px !important;
             height: 32px !important;
             border-radius: 20px !important;
@@ -73,22 +73,27 @@ st.markdown("""
             font-size: 0.85rem !important;
             font-weight: 700 !important;
             padding: 0px 16px !important;
-            box-shadow: none !important;
             width: auto !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             float: right;
+            margin-top: 4px;
         }
         
-        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button * {
+        /* Force inner text color alignment */
+        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button * {
             color: #0B5CFF !important;
         }
         
-        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button:hover {
+        /* Hover States */
+        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button:hover {
             background-color: #0B5CFF !important;
             color: white !important;
             border-color: #0B5CFF !important;
         }
         
-        div[data-testid="stElementContainer"]:has(.prd-btn-hook) + div[data-testid="stElementContainer"] button:hover * {
+        div[data-testid="stElementContainer"]:has(.header-columns-trigger) + div[data-testid="stHorizontalBlock"] div[data-testid="column"]:nth-child(2) button:hover * {
             color: white !important;
         }
         
@@ -266,16 +271,15 @@ def send_mail_modal():
             st.rerun()
 
 # --- Main App Layout ---
-st.markdown('<div class="header-wrapper" style="display:none;"></div>', unsafe_allow_html=True)
-header_left, header_right = st.columns([0.75, 0.25], vertical_alignment="center")
+# Structural anchor to target the header row layout elements cleanly
+st.markdown('<div class="header-columns-trigger" style="display:none;"></div>', unsafe_allow_html=True)
+header_left, header_right = st.columns([0.82, 0.18], vertical_alignment="center")
 
 with header_left:
     st.title("✨ Standup Synthesizer")
 
 with header_right:
-    # A dedicated target class prevents this button from blowing up to 54px tall
-    st.markdown('<div class="prd-btn-target"></div>', unsafe_allow_html=True)
-    if st.button("📋 View PRD", type="secondary", use_container_width=True):
+    if st.button("📄 PRD", key="header_prd_btn"):
         prd_modal()
 
 st.markdown("Product standup in 15m. Choose which updates you'd like to share, and I'll generate a live script for you.")
